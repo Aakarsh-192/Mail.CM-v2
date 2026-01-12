@@ -185,54 +185,42 @@ Mail.CM-v2/
 ## 🏗️ Architecture
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ff6b6b', 'primaryTextColor': '#fff', 'primaryBorderColor': '#ee5a5a', 'lineColor': '#f8b739', 'secondaryColor': '#4ecdc4', 'tertiaryColor': '#1a1a2e'}}}%%
-
 flowchart TB
-    subgraph PRESENTATION["<b>🎨 PRESENTATION LAYER</b>"]
-        direction LR
-        SP["🚀 Splash<br/><i>Animated Loading</i>"]
-        LG["🔐 Login<br/><i>Authentication</i>"]
-        SU["📝 SignUp<br/><i>Registration</i>"]
-        FP["🔑 ForgetPass<br/><i>Recovery</i>"]
-        EC["📧 EmailClient<br/><i>Main Application</i>"]
+    subgraph UI[Presentation Layer]
+        SP[Splash]
+        LG[Login]
+        SU[SignUp]
+        FP[ForgetPass]
+        EC[EmailClient]
     end
 
-    subgraph BUSINESS["<b>⚙️ BUSINESS LOGIC LAYER</b>"]
-        direction LR
-        SDM["� SyncDataManager<br/><i>Strategy Selector</i>"]
-        TM["🪦 TombstoneManager<br/><i>Deletion Tracking</i>"]
+    subgraph BL[Business Logic]
+        SDM[SyncDataManager]
+        TM[TombstoneManager]
     end
 
-    subgraph PERSISTENCE["<b>💾 PERSISTENCE LAYER</b>"]
-        direction TB
-        subgraph PRIMARY["Primary Storage"]
-            JDM["🗄️ JDBCDataManager<br/><i>SQLite Database</i>"]
-        end
-        subgraph FALLBACK["Fallback Storage"]
-            FDM["📁 FileDataManager<br/><i>In-Memory Cache</i>"]
-        end
+    subgraph PL[Persistence Layer]
+        JDM[JDBCDataManager]
+        FDM[FileDataManager]
     end
 
-    subgraph DAO["<b>� DATA ACCESS OBJECTS</b>"]
-        direction LR
-        UDAO["👤 UserDAO<br/><i>User Operations</i>"]
-        EDAO["✉️ EmailDAO<br/><i>Email Operations</i>"]
+    subgraph DAO[Data Access]
+        UDAO[UserDAO]
+        EDAO[EmailDAO]
     end
 
-    subgraph DOMAIN["<b>� DOMAIN MODELS</b>"]
-        direction LR
-        USR["👤 User<br/><i>name, email, password</i>"]
-        EML["✉️ Email<br/><i>from, to, subject, body</i>"]
-        ES["🏷️ EmailStatus<br/><i>INBOX, SENT, DRAFT...</i>"]
-        VT["👁️ ViewType<br/><i>View Categories</i>"]
+    subgraph DM[Domain Models]
+        USR[User]
+        EML[Email]
+        ES[EmailStatus]
+        VT[ViewType]
     end
 
-    subgraph STORAGE["<b>🗃️ PHYSICAL STORAGE</b>"]
-        DB[("🛢️ SQLite<br/>mail_sql_v2.db")]
-        ATT["📎 Attachments<br/>/database/attachments/"]
+    subgraph ST[Storage]
+        DB[(SQLite DB)]
+        ATT[Attachments]
     end
 
-    %% Connections
     SP --> EC
     LG --> SDM
     SU --> SDM
@@ -240,7 +228,7 @@ flowchart TB
     EC --> SDM
 
     SDM --> JDM
-    SDM -.->|fallback| FDM
+    SDM -.-> FDM
     SDM --> TM
 
     JDM --> UDAO
@@ -252,21 +240,6 @@ flowchart TB
 
     JDM --> DB
     JDM --> ATT
-
-    %% Styling
-    classDef presentation fill:#ff6b6b,stroke:#ee5a5a,stroke-width:2px,color:#fff
-    classDef business fill:#4ecdc4,stroke:#3dbdb5,stroke-width:2px,color:#fff
-    classDef persistence fill:#45b7d1,stroke:#34a6c0,stroke-width:2px,color:#fff
-    classDef dao fill:#96ceb4,stroke:#85bda3,stroke-width:2px,color:#1a1a2e
-    classDef domain fill:#ffeaa7,stroke:#fdcb6e,stroke-width:2px,color:#1a1a2e
-    classDef storage fill:#636e72,stroke:#535c60,stroke-width:2px,color:#fff
-
-    class SP,LG,SU,FP,EC presentation
-    class SDM,TM business
-    class JDM,FDM persistence
-    class UDAO,EDAO dao
-    class USR,EML,ES,VT domain
-    class DB,ATT storage
 ```
 
 ### 📐 Layer Responsibilities
@@ -284,31 +257,9 @@ flowchart TB
 
 ## 👥 Authors
 
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/Aakarsh-192">
-        <b>@Aakarsh-192</b>
-      </a>
-      <br/>
-      <sub>👑 Team Leader</sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/Adarshraj28">
-        <b>@Adarshraj28</b>
-      </a>
-      <br/>
-      <sub>Developer</sub>
-    </td>
-    <td align="center">
-      <a href="https://github.com/ishikasukhija">
-        <b>@ishikasukhija</b>
-      </a>
-      <br/>
-      <sub>Developer</sub>
-    </td>
-  </tr>
-</table>
+[![Aakarsh-192](https://img.shields.io/badge/Aakarsh--192-👑_Leader-ff6b6b?style=for-the-badge&logo=github)](https://github.com/Aakarsh-192)
+[![Adarshraj28](https://img.shields.io/badge/Adarshraj28-Developer-4ecdc4?style=for-the-badge&logo=github)](https://github.com/Adarshraj28)
+[![ishikasukhija](https://img.shields.io/badge/ishikasukhija-Developer-45b7d1?style=for-the-badge&logo=github)](https://github.com/ishikasukhija)
 
 ---
 
